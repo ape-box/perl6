@@ -1,15 +1,17 @@
 ---
 sudo: false
+language: perl6
+perl6:
+  - latest
+install:
+  - rakudobrew build zef
+  - zef install JSON::Fast
 before_script:
   - git clone https://github.com/exercism/problem-specifications.git
   - bin/fetch-configlet
-  - docker pull rakudo-star:latest
 script:
   - bin/configlet lint .
-  - docker run
-    --env EXERCISM=1
-    --volume $PWD:/exercism
-    rakudo-star prove /exercism
+  - prove
     --exec perl6
     --recurse
     --jobs 2
